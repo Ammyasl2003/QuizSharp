@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz - QuizSharp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      padding: 2rem;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .timer {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #d63031;
+    }
+    .question {
+      font-size: 1.2rem;
+      margin: 1rem 0;
+    }
+    .options label {
+      display: block;
+      margin: 0.5rem 0;
+    }
+    .btn {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #f67280;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #c06c84;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h2 id="quiz-title">Loading Quiz...</h2>
+    <div class="timer" id="timer">Time Left: 30:00</div>
+    <div id="quiz-box">
+      <!-- Question will be injected here -->
+    </div>
+    <button class="btn" onclick="nextQuestion()">Next</button>
+  </div>
+
+  <script>
+    const questions = {
+      aptitude: [
+        { question: "What is 25% of 200?", options: ["25", "50", "100", "75"], answer: "50" },
+        { question: "What comes next: 2, 4, 8, 16, ?", options: ["18", "20", "32", "24"], answer: "32" },
+        { question: "Simplify: 5 + 15 / 3", options: ["10", "20", "15", "5"], answer: "10" },
+        { question: "What is the square root of 144?", options: ["12", "14", "16", "18"], answer: "12" },
+        { question: "What is 3/4 of 100?", options: ["25", "50", "75", "100"], answer: "75" },
+        { question: "Solve: 10 + (3 × 2)", options: ["16", "20", "10", "13"], answer: "16" },
+        { question: "12 is what percent of 48?", options: ["12%", "25%", "33%", "50%"], answer: "25%" },
+        { question: "How many seconds in 2 hours?", options: ["3600", "7200", "1200", "1800"], answer: "7200" },
+        { question: "Average of 10, 20, 30 is?", options: ["25", "20", "30", "15"], answer: "20" },
+        { question: "What is the cube of 3?", options: ["6", "9", "27", "81"], answer: "27" },
+        { question: "Solve: 100 - 25 x 2", options: ["50", "60", "25", "75"], answer: "50" },
+        { question: "What is 1/2 of 1/4?", options: ["1/8", "1/6", "1/4", "1/2"], answer: "1/8" },
+        { question: "If x = 3, what is x² + 2x?", options: ["9", "12", "15", "18"], answer: "15" },
+        { question: "How many cm in 2 meters?", options: ["100", "150", "200", "250"], answer: "200" },
+        { question: "Percentage of 20 out of 80?", options: ["10%", "25%", "40%", "50%"], answer: "25%" },
+        { question: "Simplify: (5 + 3)²", options: ["64", "25", "16", "100"], answer: "64" },
+        { question: "What is 10% of 1000?", options: ["100", "10", "50", "150"], answer: "100" },
+        { question: "Solve: 7² - 4²", options: ["33", "45", "49", "21"], answer: "33" },
+        { question: "How many sides does a hexagon have?", options: ["5", "6", "7", "8"], answer: "6" },
+        { question: "LCM of 4 and 5 is?", options: ["10", "15", "20", "25"], answer: "20" }
+      ],
+      reasoning: [
+        { question: "Find the odd one out: Apple, Banana, Carrot, Mango", options: ["Apple", "Banana", "Carrot", "Mango"], answer: "Carrot" },
+        { question: "If A=1, B=2, C=3... What is the value of CAT?", options: ["24", "27", "26", "29"], answer: "24" },
+        { question: "Which number comes next: 1, 4, 9, 16, ?", options: ["25", "20", "23", "36"], answer: "25" },
+        { question: "Mirror image of 'DOG'?", options: ["GOO", "COD", "GOD", "GOP"], answer: "GOD" },
+        { question: "Which is different: Square, Rectangle, Triangle, Circle", options: ["Square", "Rectangle", "Triangle", "Circle"], answer: "Circle" },
+        { question: "3, 6, 12, 24, ?", options: ["36", "48", "50", "60"], answer: "48" },
+        { question: "Opposite of South-East?", options: ["North-West", "South-West", "North-East", "South-East"], answer: "North-West" },
+        { question: "Complete: 2, 3, 5, 8, 12, ?", options: ["14", "15", "17", "18"], answer: "17" },
+        { question: "Series: Z, X, V, T, ?", options: ["R", "S", "U", "Q"], answer: "R" },
+        { question: "Day after tomorrow is Thursday. What was yesterday?", options: ["Monday", "Tuesday", "Wednesday", "Sunday"], answer: "Monday" },
+        { question: "Find missing: 5, 10, 20, __, 80", options: ["30", "40", "35", "50"], answer: "40" },
+        { question: "Odd one: Pen, Pencil, Eraser, Book", options: ["Pen", "Pencil", "Eraser", "Book"], answer: "Book" },
+        { question: "Insert missing: A, C, E, G, ?", options: ["H", "J", "I", "K"], answer: "I" },
+        { question: "Clock: 3:15. Angle between hands?", options: ["0", "7.5", "30", "45"], answer: "7.5" },
+        { question: "A is taller than B. B is taller than C. Who is shortest?", options: ["A", "B", "C", "Can't say"], answer: "C" },
+        { question: "Word Formation: Which word from RAIN?", options: ["AIR", "RIN", "AIN", "RINN"], answer: "AIR" },
+        { question: "Which number is odd one: 121, 169, 225, 245", options: ["121", "169", "225", "245"], answer: "245" },
+        { question: "Direction: Turn right from east?", options: ["South", "North", "West", "East"], answer: "South" },
+        { question: "Missing: 1, 4, 9, 16, ?", options: ["20", "25", "30", "24"], answer: "25" },
+        { question: "One that does not belong: Blue, Green, Red, Chair", options: ["Blue", "Green", "Red", "Chair"], answer: "Chair" }
+      ],
+      verbal: [
+        { question: "Choose the synonym of 'Brilliant':", options: ["Stupid", "Dull", "Intelligent", "Weak"], answer: "Intelligent" },
+        { question: "Antonym of 'Generous' is:", options: ["Kind", "Selfish", "Brave", "Helpful"], answer: "Selfish" },
+        { question: "Choose correct spelling:", options: ["Recieve", "Receive", "Receeve", "Receve"], answer: "Receive" },
+        { question: "Plural of 'Child'?", options: ["Childs", "Children", "Childes", "Child"], answer: "Children" },
+        { question: "Opposite of 'Quick'?", options: ["Fast", "Swift", "Slow", "Run"], answer: "Slow" },
+        { question: "Fill in the blank: He __ to school daily.", options: ["go", "goes", "gone", "going"], answer: "goes" },
+        { question: "Which is a verb?", options: ["Run", "Blue", "Happy", "Dog"], answer: "Run" },
+        { question: "Choose synonym of 'Silent'", options: ["Loud", "Quiet", "Noisy", "Talkative"], answer: "Quiet" },
+        { question: "Antonym of 'Victory'?", options: ["Battle", "War", "Defeat", "Fight"], answer: "Defeat" },
+        { question: "Which is a noun?", options: ["Running", "Beautiful", "Chair", "Slowly"], answer: "Chair" },
+        { question: "Choose correct: I ___ a book.", options: ["read", "reads", "reading", "reader"], answer: "read" },
+        { question: "Synonym of 'Fast'?", options: ["Quick", "Slow", "Stop", "Late"], answer: "Quick" },
+        { question: "Antonym of 'Strong'?", options: ["Weak", "Heavy", "Tough", "Hard"], answer: "Weak" },
+        { question: "Which one is adjective?", options: ["Quickly", "Quick", "Run", "Fastly"], answer: "Quick" },
+        { question: "Correct sentence:", options: ["He go to school.", "He going school.", "He goes to school.", "He gone to school."], answer: "He goes to school." },
+        { question: "Choose verb:", options: ["Happiness", "Jump", "Joy", "Beautiful"], answer: "Jump" },
+        { question: "Correct spelling:", options: ["Definately", "Definetly", "Definitely", "Defenetly"], answer: "Definitely" },
+        { question: "Fill in blank: They ___ happy.", options: ["is", "are", "was", "be"], answer: "are" },
+        { question: "Synonym of 'Begin':", options: ["End", "Start", "Late", "Exit"], answer: "Start" },
+        { question: "Antonym of 'Cold':", options: ["Cool", "Hot", "Ice", "Chill"], answer: "Hot" }
+      ]
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const cat = urlParams.get("cat") || "aptitude";
+    const quizData = questions[cat];
+
+    let index = 0;
+    let score = 0;
+    let timeLeft = 1800; // 30 minutes in seconds
+
+    const quizBox = document.getElementById("quiz-box");
+    const title = document.getElementById("quiz-title");
+
+    title.innerText = `Category: ${cat.charAt(0).toUpperCase() + cat.slice(1)}`;
+
+    function updateTimer() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById("timer").innerText = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      if (timeLeft === 0) {
+        finishQuiz();
+      } else {
+        timeLeft--;
+        setTimeout(updateTimer, 1000);
+      }
+    }
+
+    function loadQuestion() {
+      const q = quizData[index];
+      quizBox.innerHTML = `
+        <div class="question">Q${index + 1}. ${q.question}</div>
+        <div class="options">
+          ${q.options.map(opt => `
+            <label>
+              <input type="radio" name="option" value="${opt}"> ${opt}
+            </label>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function nextQuestion() {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected) {
+        alert("Please select an option");
+        return;
+      }
+      if (selected.value === quizData[index].answer) {
+        score++;
+      }
+      index++;
+      if (index < quizData.length) {
+        loadQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      localStorage.setItem("score", score);
+      localStorage.setItem("total", quizData.length);
+      window.location.href = "score.html";
+    }
+
+    loadQuestion();
+    updateTimer();
+  </script>
+</body>
+</html>

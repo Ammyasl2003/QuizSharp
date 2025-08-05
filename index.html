@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizSharp - Aptitude & Reasoning Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #6dd5fa, #2980b9);
+      color: #fff;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .main-header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      animation: slideDown 1s ease-out;
+    }
+
+    .main-header p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      animation: fadeIn 2s ease-in;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeInUp 1.5s ease-in;
+    }
+
+    .btn {
+      background-color: #fff;
+      color: #2980b9;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #2980b9;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <h1>QuizSharp</h1>
+    <p>Boost Your Brain with Aptitude & Reasoning Tests!</p>
+    <div class="btn-group">
+      <a href="category.html" class="btn">Start Quiz</a>
+      <a href="java.html" class="btn">Java Interview Questions</a>
+      <a href="score.html" class="btn">Check Scores</a>
+      <a href="tech.html" class="btn">Technical Questions</a>
+    </div>
+  </header>
+
+  <footer>
+    <p>&copy; 2025 QuizSharp. Made with 💡 by Ammy</p>
+  </footer>
+</body>
+</html>

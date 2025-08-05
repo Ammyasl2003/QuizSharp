@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Select Quiz Category</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #9face6);
+      text-align: center;
+      padding-top: 5rem;
+      color: #333;
+    }
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .category-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .category {
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 200px;
+      height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2980b9;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+    .category:hover {
+      transform: scale(1.05);
+      background-color: #2980b9;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h2>Select a Quiz Category</h2>
+  <div class="category-container">
+    <a href="quiz.html?cat=aptitude" class="category">Quantitative Aptitude</a>
+    <a href="quiz.html?cat=reasoning" class="category">Logical Reasoning</a>
+    <a href="quiz.html?cat=verbal" class="category">Verbal Ability</a>
+  </div>
+</body>
+</html>
